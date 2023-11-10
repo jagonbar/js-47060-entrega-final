@@ -13,25 +13,25 @@ export async function getTemplateBase(url){
     }
     console.log({textoResultado});
     return retornaResultado(
-            response.ok,
-            textoResultado
+        response.ok,
+        textoResultado
         )
-    
-
-}
-// reemplaza palabras de template
-export async function getTemplate(url, data){
-    
-    let {ok,textoResultado:html} = await getTemplateBase(url);
-    
-    if(!ok){
-        return retornaResultado(ok,"");
-    }    
         
-    if(data!==null && data!==undefined){
-        for(let dato of data){            
-            html = html.replace(dato.tag, dato.valor);                
-        }
+        
     }
-    return retornaResultado(true,html);        
+    // reemplaza palabras de template
+    export async function getTemplate(url, data){
+        
+        let {ok,textoResultado:html} = await getTemplateBase(url);    
+        if(!ok){
+            return retornaResultado(ok,"");
+        }    
+        
+        if(data!==null && data!==undefined){
+            for(let dato of data){            
+                html = html.replace(dato.tag, dato.valor);                
+            }
+        }
+        console.log({html});
+        return retornaResultado(true,html);        
 }

@@ -1,10 +1,10 @@
 import {getTemplateBase,getTemplate,retornaResultado} from "./templateClass.js";
 // import $ from "/assets/js/_jquery/jquery.min.js";
 // import { toast } from "/assets/js/_toastr/toast.min.js";
-import "/assets/js/_toastr/toastr.min.js";        
 import "/assets/js/_jquery/jquery.min.js";
+import "/assets/js/_toastr/toastr.min.js";        
 
-const rutaTemplates = "/assets/_utilidades/templates/"
+const rutaTemplates = "/assets/js/_utilidades/templates/"
 
 const templates = {
     "prompt": rutaTemplates + "templatePrompt.html",
@@ -17,14 +17,22 @@ const templates = {
  * @param {*} template 
  * @param {*} dataMensaje 
  */
-async function mensaje(tipo, titulo, template = "", dataMensaje) {
+async function mensaje(tipo, titulo, template = "", data) {
     toastr.options.progressBar = true;
+    let respuestaTemplate,ok,html="";
 
     if (template !== "" && templates.hasOwnProperty(template)) {
-        let html = await getTemplate(templates[template], data);        
-        toast[tipo](html, titulo);
+        respuestaTemplate = await getTemplate(templates[template], data);        
+    }
+    if(respuestaTemplate.hasOwnProperty("ok") && respuestaTemplate.ok){
+        
+        if(template=="prompt"){
+            toastr.options.timeOut = 0;
+            toastr.options.extendedTimeOut = 0;
+        }
+        toastr[tipo](respuestaTemplate.textoResultado, "");
     }else{
-        toast[tipo](data, titulo);
+        toastr[tipo](data, titulo);
     }
 }
 

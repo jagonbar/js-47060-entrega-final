@@ -100,7 +100,17 @@ export function pedirCantidad(){
     console.log("function pedirCantidad()")
     let cantidad;
     do{
-        cantidad= prompt("Indica cantidad a comprar (de 1 a 100) ");
+        let data = [
+            {"tag":"###MSG###"             , "valor": "ingresa cantidad"},
+            {"tag":"###PLACEHOLDER###"     , "valor": "rango de 1 a 100"},
+            {"tag":"###FUNCTION_OK###"     , "valor": `alert("OK")`},
+            {"tag":"###OK_BTN###"          , "valor": "OK!!!!"},
+            {"tag":"###FUNCTION_CANCEL###" , "valor": `alert("OK")`},
+            {"tag":"###CANCEL_BTN###"      , "valor": `CANCELAR`},
+        ]
+        mensaje("info", "Ingresa Cantidad", "prompt", data);
+
+        let cantidad= prompt("Indica cantidad a comprar (de 1 a 100) ");
         
         if(cantidad===null) {
             console.log("canceló prompt");

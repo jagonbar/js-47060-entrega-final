@@ -1,5 +1,6 @@
+// import "/assets/js/_jquery/jquery.min.js";
+// import "/assets/js/_toastr/toastr.min.js";
 import {inicioPaginaJuegos} from "./funcionesJuegos.js"
-
 /**
  * ARCHIVO QUE CONTIENE TODA LA GESTION DE
  * PAGINA pages\juegos.html
@@ -10,6 +11,9 @@ const plataformas = ["pc","playstation","switch","xbox"];
 // verificar carga de página
 window.onload = async function(){
     
+    // console.log(toast)
+
+    // toastr["info"]("gestion ","tidddtulo");
     //01 - al cargar pagina, dibujar todas las tarjetas de juegos
     await inicioPaginaJuegos(plataformas);    
     
