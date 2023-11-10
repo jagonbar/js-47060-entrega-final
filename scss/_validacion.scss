@@ -1,0 +1,43 @@
+div.prompt{
+    font-family: $font-jura;    
+    // width: 500px;
+    // background-color: aqua; /*test*/
+    // color: black; /*test*/
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    .prompt__section{
+        padding: 3px 20px;
+    }
+    .prompt__control{
+        padding: 3px 10px;
+        font-size: 20px; 
+        border-radius: 5px;
+    }
+    .prompt__question{
+        padding: 10px;
+    }
+    .prompt__input{
+        width: 100%;
+    }
+    .prompt__buttons{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        align-items: center;
+        .prompt__button{
+            min-width: 100px;            
+            text-align: center;
+        }
+        #prompt_ok{
+            background-color: white;
+            color: black;
+        }
+        #prompt_cancel{
+            background-color: #db9a9a;
+            color: black;
+        }
+    }
+}

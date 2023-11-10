@@ -1,0 +1,23 @@
+{
+  "name": "coderhouse",
+  "version": "1.0.0",
+  "description": "curso diseno web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jagonbar/codehouse-58015-1ra-entrega.git"
+  },
+  "author": "Javier Gonzalez Barrientos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jagonbar/codehouse-58015-1ra-entrega/issues"
+  },
+  "homepage": "https://github.com/jagonbar/codehouse-58015-1ra-entrega#readme",
+  "dependencies": {
+    "sass": "^1.69.5",
+    "toastr": "^2.1.4"
+  }
+}
