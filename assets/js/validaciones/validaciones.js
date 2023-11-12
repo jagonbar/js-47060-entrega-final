@@ -1,3 +1,4 @@
+import { mensaje } from "../_utilidades/mensaje.js";
 /**
  * valida si es un número entero válido
  * @param {string} valor 
@@ -8,7 +9,9 @@ function validaNumeroInt(valor) {
     let es_entero = (parseInt(valor) === parseFloat(valor))
 
     let es_valido = (valor !== null) && (valor !== undefined) && (!isNaN(valor)) && es_entero;
-    if (!es_valido) alert("Ingresa un número valido");
+    if (!es_valido){
+        mensaje("error","Error!","Ingresa un número válido",{"progressBar":true})
+    }
     return es_valido;
 }
 
@@ -22,7 +25,9 @@ function validaRango(cantidad) {
     let minimo = 1;
     let maximo = 100;
     let es_rango_valido = (minimo >= 0 && cantidad <= maximo);
-    if (!es_rango_valido) alert("Cantidad debe ser un rango entre 1 y 100");
+    if (!es_rango_valido) {
+        mensaje("error","Error!","Cantidad debe ser un rango entre 1 y 100",{"progressBar":true})        
+    }
     return es_rango_valido;
 }
 

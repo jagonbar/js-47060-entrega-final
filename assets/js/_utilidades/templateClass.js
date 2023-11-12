@@ -11,7 +11,7 @@ export async function getTemplateBase(url){
     if(response.ok){
         textoResultado = await response.text();
     }
-    console.log({textoResultado});
+    // console.log({textoResultado});
     return retornaResultado(
         response.ok,
         textoResultado
@@ -32,6 +32,6 @@ export async function getTemplateBase(url){
                 html = html.replace(dato.tag, dato.valor);                
             }
         }
-        console.log({html});
+        // console.log({html});
         return retornaResultado(true,html);        
 }

@@ -4,19 +4,19 @@
  */
 // import {templateJuego} from "./templateJuego.js"
 // import {juegosDisponibles} from "./juegos.js"
+// import { mensaje } from "../_utilidades/mensaje.js";
 import {agregarJuegoVenta} from "../venta/funcionesVenta.js"
-import {getTemplate, retornaResultado, mensaje} from "/assets/js/_utilidades/mensaje.js"
+import {getTemplate,mensajeClear} from "/assets/js/_utilidades/mensaje.js"
 import {
     validaNumeroInt,
     validaRango,
-    validaNoVacio,
-    validaTelefono,
-    validaEmail,
     formateaMiles,
 } from "/assets/js/validaciones/validaciones.js"
 
 let juegosDisponibles=[];
-
+/**
+ * ir a buscar datos a "base de datos" (JSON)
+ */
 async function cargarJuegos(){
     let resp = await fetch("/assets/data/juegos.json");
     if(resp.ok){
@@ -29,13 +29,8 @@ async function cargarJuegos(){
  * @param {*} plataformas 
  */
 export async function inicioPaginaJuegos(plataformas) {
-    
+
     await cargarJuegos();
-
-    // console.table(juegosDisponibles);
-    // let juegosDisponiblesResponse = await fetch("./assets")
-
-    // let juegosDisponibles
     
     const games__list = document.querySelector(".games__list");
     const htmlJuegos = [];
@@ -59,20 +54,13 @@ export async function inicioPaginaJuegos(plataformas) {
         dataJSON.push({"tag":"###NOMBRE_JUEGO###","valor": juego.titulo});
         dataJSON.push({"tag":"###PRECIO###"      ,"valor": formateaMiles(juego.precio)});
         dataJSON.push({"tag":"###DESCRIPCION###" ,"valor": juego.descripcion});
-        dataJSON.push({"tag":"###IMAGEN###"      ,"valor": juego.imagen});
-
-        // console.log({dataJSON})
+        dataJSON.push({"tag":"###IMAGEN###"      ,"valor": juego.imagen});        
+        console.log({dataJSON})
 
         let {ok,textoResultado:html} = await getTemplate("/assets/templates/templateJuego.html",dataJSON);
-        console.log("en fj",{html})
-        // html = html.replace("###DATA###"        , data);
-        // html = html.replace("###ID###"          , juego.id);
-        // html = html.replace("###NOMBRE_JUEGO###", juego.titulo);
-        // html = html.replace("###PRECIO###"      , formateaMiles(juego.precio));
-        // html = html.replace("###DESCRIPCION###" , juego.descripcion);
-        // html = html.replace("###IMAGEN###"      , juego.imagen);
+
         if(ok){
-            console.log(html);
+
             htmlJuegos.push(html);
         }
     }
@@ -83,12 +71,17 @@ export async function inicioPaginaJuegos(plataformas) {
     const linkAgregarJuegos = document.querySelectorAll(".link_agregar_juego");
     
     linkAgregarJuegos.forEach(function(linkJuego){
-        // linkJuego.addEventListener("click",function(event){
-            //     event.preventDefault();
-            //     console.log(this)            
-            // });
+
             linkJuego.addEventListener("click",clickLinkAgregarJuegos);
         });
+
+    //03 - botones form modal
+    let btnModalAgregar  = document.getElementById("btnModalAgregar")
+    let btnModalCancelar = document.getElementById("btnModalCancelar")
+        
+    btnModalAgregar.addEventListener("click",clickBtnModalAgregar);
+
+    btnModalCancelar.addEventListener("click",clickbtnModalCancelar);  
 }
 
 /**
@@ -96,34 +89,27 @@ export async function inicioPaginaJuegos(plataformas) {
  * si numero está fuera de rango, se sigue preguntando
  * @returns cantidad
  */
-export function pedirCantidad(){
-    console.log("function pedirCantidad()")
-    let cantidad;
-    do{
-        let data = [
-            {"tag":"###MSG###"             , "valor": "ingresa cantidad"},
-            {"tag":"###PLACEHOLDER###"     , "valor": "rango de 1 a 100"},
-            {"tag":"###FUNCTION_OK###"     , "valor": `alert("OK")`},
-            {"tag":"###OK_BTN###"          , "valor": "OK!!!!"},
-            {"tag":"###FUNCTION_CANCEL###" , "valor": `alert("OK")`},
-            {"tag":"###CANCEL_BTN###"      , "valor": `CANCELAR`},
-        ]
-        mensaje("info", "Ingresa Cantidad", "prompt", data);
-
-        let cantidad= prompt("Indica cantidad a comprar (de 1 a 100) ");
+export function revisarCantidad(){
+    console.log("function revisarCantidad()")
+    
+    let cantidad = document.getElementById("cantidadComprar").value;      
+    
+    let es_valido   = validaNumeroInt(cantidad) && validaRango(cantidad);
+    
+    return (es_valido)?parseInt(cantidad):false;
         
-        if(cantidad===null) {
-            console.log("canceló prompt");
-            return false;
-            break;
-        }//canceló prompt
-
-        es_valido   = validaNumeroInt(cantidad) && validaRango(cantidad);
-    }while(!es_valido)
-    console.log("paso 1",cantidad)
-    return parseInt(cantidad);
 }
+function mostrarModal(mostrar){
+    let visibility = (mostrar===true)?"visible":"hidden";
 
+    let modals = document.querySelectorAll(".modal")
+    for(let m of modals){
+        m.style.visibility = visibility;
+    }
+    if(mostrar){
+        document.getElementById("cantidadComprar").value = "";
+    }
+}
 /**
  * accion de click agregar juego
  * @param {event} event 
@@ -131,17 +117,33 @@ export function pedirCantidad(){
 
 function clickLinkAgregarJuegos(event){
     event.preventDefault();
-    console.log(this.dataset)
-    
+    console.log("clickeado",this);
+    //obtener juego seleccionado
+    document.getElementById("idJuego").value = this.id;
 
-    let juego = {...this.dataset};
-    console.log("click hecho a ",{juego});
-    cantidad = pedirCantidad();
-    console.log("paso 2")
-    if(cantidad!==false){
-        console.log("paso 3")
-        //de assets/js/venta/gestionVentas.js
-        agregarJuegoVenta(juego, cantidad);
-    }
+    mostrarModal(true);          
+}
+/**
+ * agregar cantidad a comprar. Si ya esta se actualiza cantidad
+ * @returns 
+ */
+function clickBtnModalAgregar(){
     
+    let cantidad = revisarCantidad();
+    
+    if(!cantidad) return; //si cantidad no es válida corta ejecución
+
+    let idJuego = document.getElementById("idJuego").value
+    let dataset = document.getElementById(idJuego).dataset
+    let juego   = {...dataset};    
+
+    //de assets/js/venta/gestionVentas.js
+    agregarJuegoVenta(juego, cantidad);
+}
+/**
+ * ocultar modal
+ */
+function clickbtnModalCancelar(){
+    mostrarModal(false);
+    mensajeClear();
 }

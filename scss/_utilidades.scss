@@ -1,0 +1,126 @@
+.modal{
+    visibility: hidden;
+}
+#cover {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    background-color: gray;    
+    z-index: 80;
+    left: 0px;
+    right: 0px;
+    opacity: 0.7;
+}
+#modal__box{
+    position: fixed;
+    box-sizing: content-box;
+    // border: 3px solid blue;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    // position: absolute;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    z-index: 95;
+}
+#modal__form {
+    // border: 3px solid yellow;
+    @media only screen and (max-width: 799px) {     
+        width: 100%;
+    }
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 800px) {
+        width: 800px;
+    }
+
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    // @media only screen and (min-width: 1200px) {
+    //     width: 90vw;    
+    // }
+
+    border-radius: 10px;
+
+    background-color: white;
+    padding: 0.5rem;
+    color: black;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    gap: 10px;
+    
+    .modal__section{
+        width: 100%;
+        // border: 1px solid red;
+        font-size: 3rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;        
+        gap: 10px;       
+        justify-content: center;
+        
+        @media only screen and (max-width: 599px) {     
+            flex-direction: column;
+        }        
+        @media only screen and (min-width: 600px) {
+            flex-direction: row;        
+        }        
+
+        input, button,label{
+            font-family: $font-jura;
+            // border: 2px solid purple ;
+            font-size: 1.5rem;
+        }
+        button{
+            border-radius: 10px;
+            background: linear-gradient(45deg, rgba(1,12,46,1) 25%, rgba(160,0,209,1) 100%);
+            color: white;
+            
+            @media only screen and (max-width: 599px) {     
+                width: 100%;
+            }
+            /* Large devices (laptops/desktops, 992px and up) */
+            @media only screen and (min-width: 600px) {
+                width: 200px;
+            }
+            
+            // /* Extra large devices (large laptops and desktops, 1200px and up) */
+            // @media only screen and (min-width: 1200px) {
+                //     width: 500px;    
+            // }
+        }
+        label{
+            text-align: center;
+            @media only screen and (max-width: 599px) {     
+                width: 100%;
+            }
+            /* Large devices (laptops/desktops, 992px and up) */
+            @media only screen and (min-width: 600px) {
+                width: 200px
+            }
+        }
+        input{
+            border-radius: 5px;
+            border: 2px dotted gray;
+            padding: 10px 30px;
+            @media only screen and (max-width: 599px) {     
+                width: 100%;
+            }
+            /* Large devices (laptops/desktops, 992px and up) */
+            @media only screen and (min-width: 600px) {
+                width: 60%;
+            }
+        
+            /* Extra large devices (large laptops and desktops, 1200px and up) */
+            @media only screen and (min-width: 1200px) {
+                width: 500px;    
+            }
+        }
+    }
+}
+
